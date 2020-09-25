@@ -15,6 +15,20 @@ namespace Infrastructure.Data
 
                 query = query.Where(spec.Criteria);  // p => p.productTypeid = id
             }
+
+             if(spec.OrderBy != null){
+
+                query = query.OrderBy(spec.OrderBy);  // p => p.productTypeid = id
+            }
+
+            if(spec.OrderByDesc != null){
+
+                query = query.OrderByDescending(spec.OrderByDesc);  // p => p.productTypeid = id
+            }
+
+            if(spec.IsPagingEnabled){
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query;
