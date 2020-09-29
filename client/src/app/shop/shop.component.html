@@ -18,7 +18,7 @@
           routerLink="/"
           (click)="onBrandSelected(b.id)"
           *ngFor="let b of brands"
-          [class.active]="b.id === this.shopParams.brandIdSelected"
+          [class.active]="b.id === this.shopService.brandIdSelected"
           [value]="b.id"
         >
           {{ b.name }}
@@ -31,7 +31,7 @@
           class="list-group-item"
           (click)="onTypeSelected(t.id)"
           *ngFor="let t of types"
-          [class.active]="t.id === this.shopParams.typeIdSelected"
+          [class.active]="t.id === this.shopService.typeIdSelected"
           [value]="t.id"
         >
           {{ t.name }}

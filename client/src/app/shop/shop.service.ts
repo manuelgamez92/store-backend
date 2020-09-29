@@ -5,33 +5,45 @@ import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/productType';
 import { map } from 'rxjs/operators';
 import { ShopParams } from '../shared/models/shopParams';
+import { Subject } from 'rxjs';
+import { IProduct } from '../shared/models/product';
 @Injectable({
   providedIn: 'root',
 })
 export class ShopService {
   baseUrl = 'https://localhost:5001/api/';
+  private productsUpdated = new Subject<{products: IPagination}>();
 
+  typeIdSelected: number = 0;
+  brandIdSelected: number = 0;
+  ifBrandSelected = false;
+  sortSelected : string = "name";
+  pageNumber = 1;
+  pageSize = 6;
+  search : string ;
   constructor(private http: HttpClient) {}
 
-  getProducts(shopParams : ShopParams) {
+  
+
+  getProducts(shopParams? : ShopParams) {
     let params = new HttpParams();
 
-    if (shopParams.brandIdSelected !== 0) {
-      params = params.append('brandId', shopParams.brandIdSelected.toString());
+    if (this.brandIdSelected !== 0 ) {
+      params = params.append('brandId', this.brandIdSelected.toString());
     }
-    if (shopParams.typeIdSelected !== 0) {
-      params = params.append('typeId', shopParams.typeIdSelected.toString());
+    if (this.typeIdSelected !== 0) {
+      params = params.append('typeId', this.typeIdSelected.toString());
     }
-    if (shopParams.search) {
-      params = params.append('search', shopParams.search);
+    if (this.search) {
+      params = params.append('search', this.search);
     }
 
-    params = params.append('sort', shopParams.sortSelected);
-    params = params.append('pageIndex', shopParams.pageNumber.toString());
-    params = params.append('pageSize', shopParams.pageSize.toString());
+    params = params.append('sort', this.sortSelected);
+    params = params.append('pageIndex', this.pageNumber.toString());
+    params = params.append('pageSize', this.pageSize.toString());
 
 
-    return this.http
+    this.http
       .get<IPagination>(this.baseUrl + 'products', {
         observe: 'response',
         params,
@@ -40,7 +52,9 @@ export class ShopService {
         map((response) => {
           return response.body;
         })
-      );
+      ).subscribe(data =>{
+          this.productsUpdated.next({products:data});
+      });
   }
 
   getBrands() {
@@ -49,5 +63,14 @@ export class ShopService {
 
   getTypes() {
     return this.http.get<IType[]>(this.baseUrl + 'products/types');
+  }
+
+  getProductsUpdateListener(){
+     return this.productsUpdated.asObservable();
+  }
+
+  getProduct(id:number){
+    return this.http.get<IProduct>(this.baseUrl + 'products/'+
+    id);
   }
 }

@@ -10,35 +10,27 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#"
-          >Home <span class="sr-only">(current)</span></a
-        >
+        <a class="nav-link" routerLink="/home"
+          routerLinkActive="active" routerLinkActive="active" >Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Products</a>
+        <a class="nav-link"  routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Shop</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Profile</a>
+        <a class="nav-link disabled" href="#" routerLinkActive="active">Special Offers</a>
       </li>
       
     </ul>
 
 
-     <ul class="navbar-nav mr-auto">
+     <ul class="navbar-nav mr-auto" id="searchInputDesktop">
       
       <li class="nav-item">
         
-        <form class="form-inline mt-2 mt-md-0">
-            <input
-              class="form-control mr-sm-2"
-              type="text"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
+        <div class="search-wrapper cf">
+          <input type="text" #searchInput id="searchInput" name="searchInput" placeholder="Search by word..." required style="box-shadow: none">
+          <button (click)="onSearch(searchInput.value)">Search</button>
+        </div>
       </li>
     </ul>
    
