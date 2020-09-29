@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row">
+    <section class="col-lg-3">
+      <h5 class="text-warning ml-3">Sort</h5>
+      <select
+        name=""
+        class="custom-select mb-3"
+        (change)="sortSelect($event.target.value)"
+      >
+        <option *ngFor="let o of sortOptions" [value]="o.value">
+          {{ o.name }}
+        </option>
+      </select>
+      <h5 class="text-warning ml-3">Brands</h5>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          routerLink="/"
+          (click)="onBrandSelected(b.id)"
+          *ngFor="let b of brands"
+          [class.active]="b.id === this.shopParams.brandIdSelected"
+          [value]="b.id"
+        >
+          {{ b.name }}
+        </li>
+      </ul>
+
+      <h5 class="text-warning ml-3">Types</h5>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          (click)="onTypeSelected(t.id)"
+          *ngFor="let t of types"
+          [class.active]="t.id === this.shopParams.typeIdSelected"
+          [value]="t.id"
+        >
+          {{ t.name }}
+        </li>
+      </ul>
+    </section>
+    <section class="col-lg-9">
+      <div class="d-flex justify-content-beetween align-items-center pb-2">
+        <header>
+         
+          <span
+          *ngIf="totalCount && totalCount > 0">Showing <strong>{{(this.shopParams.pageNumber - 1) * this.shopParams.pageSize + 1}} -
+                 {{(this.shopParams.pageNumber*this.shopParams.pageSize
+                    > this.totalCount ? this.totalCount : this.shopParams.pageNumber*this.shopParams.pageSize
+                    )}}</strong> of
+             <strong>{{this.totalCount}}</strong> Results:
+          </span>
+          <span *ngIf="totalCount === 0">
+           There are <strong> 0</strong> results for this filter
+
+          </span>
+        </header>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4" *ngFor="let p of products">
+          <app-product-item [product]="p"></app-product-item>
+        </div>
+        <div class="col-xs-12 col-12">
+
+            <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+                <pagination
+                [boundaryLinks]="true"
+                [totalItems]="this.totalCount"
+                (pageChanged)="onPageChanged($event)"
+                [itemsPerPage]="this.shopParams.pageSize"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+              >
+              </pagination>
+            </div>
+        
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

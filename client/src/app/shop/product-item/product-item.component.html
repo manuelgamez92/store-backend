@@ -1,0 +1,34 @@
+<div class="card mb-2 h-200 shadow-sm">
+    <img
+      class="card-img-top"
+      data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
+      alt="Thumbnail [100%x225]"
+      style="height: 225px; width: 100%; display: block"
+      [src]="product.pictureUrl"
+      data-holder-rendered="true"
+    />
+    <div class="card-body">
+        <a >
+            <h6 class="text-uppercase"> {{product.name}}</h6>
+        </a>
+      <p class="card-text">
+      </p>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+          >
+          <i class="fa fa-shopping-cart fa-2x text-dark" style="font-size: 18px;"></i>
+        </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+          >
+            <i class="fa fa-heart"></i>
+          </button>
+        </div>
+        <strong class="text-muted">{{product.price | currency}}</strong>
+      </div>
+    </div>
+  </div>
