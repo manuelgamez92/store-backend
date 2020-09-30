@@ -6,6 +6,7 @@ import { IType } from '../shared/models/productType';
 import { ShopParams } from '../shared/models/shopParams';
 import { Subscription } from 'rxjs';
 import { IPagination } from '../shared/models/paginations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -38,7 +39,7 @@ export class ShopComponent implements OnInit {
     },
   ];
   
-  constructor(private shopService: ShopService) {
+  constructor(private shopService: ShopService,private route: Router) {
     this.getProducts();
         this.producsSub = this.shopService.getProductsUpdateListener()
     .subscribe((response: {products:IPagination}) =>{

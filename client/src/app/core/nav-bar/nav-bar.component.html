@@ -1,42 +1,65 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-white">
-  
   <img
     src="/assets/images/logo.png"
     alt="/assets/images/logo.png"
-    style="max-height: 70px;padding-right:1rem;"
+    style="max-height: 70px; padding-right: 1rem"
     alt="logo"
   />
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/home"
-          routerLinkActive="active" routerLinkActive="active" >Home</a>
+        <a
+          class="nav-link"
+          routerLink="/home"
+          routerLinkActive="active"
+          routerLinkActive="active"
+          >Home</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link"  routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Shop</a>
+        <a
+          class="nav-link"
+          routerLink="/shop"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Shop</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#" routerLinkActive="active">Special Offers</a>
+        <a
+          class="nav-link disabled"
+          routerLink="/test-error"
+          routerLinkActive="active"
+          >Special Offers</a
+        >
       </li>
-      
     </ul>
 
-
-     <ul class="navbar-nav mr-auto" id="searchInputDesktop">
-      
+    <ul class="navbar-nav mr-auto" id="searchInputDesktop">
       <li class="nav-item">
-        
         <div class="search-wrapper cf">
-          <input type="text" #searchInput id="searchInput" name="searchInput" placeholder="Search by word..." required style="box-shadow: none">
+          <input
+            type="text"
+            (keyup.enter)="onSearch(searchInput.value)"
+            #searchInput
+            id="searchInput"
+            name="searchInput"
+            placeholder="Search by word..."
+            required
+            style="box-shadow: none"
+          />
           <button (click)="onSearch(searchInput.value)">Search</button>
         </div>
       </li>
     </ul>
-   
+
     <div class="d-flex align-items-center">
       <a class="btn btn-outline-info mr-2 position-relative">
-        <i class="fa fa-shopping-cart fa-2x text-dark" style="font-size: 18px;"></i>
+        <i
+          class="fa fa-shopping-cart fa-2x text-dark"
+          style="font-size: 18px"
+        ></i>
         <div class="cart-no">5</div>
       </a>
       <a class="btn btn-outline-primary mr-2">Login</a>
@@ -44,7 +67,15 @@
     </div>
   </div>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarTogglerDemo01"
+    aria-controls="navbarTogglerDemo01"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
 </nav>

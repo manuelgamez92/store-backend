@@ -15,7 +15,6 @@
       <ul class="list-group">
         <li
           class="list-group-item"
-          routerLink="/"
           (click)="onBrandSelected(b.id)"
           *ngFor="let b of brands"
           [class.active]="b.id === this.shopService.brandIdSelected"
@@ -56,7 +55,7 @@
         </header>
       </div>
 
-      <div class="row">
+      <div class="row"> 
         <div class="col-lg-4" *ngFor="let p of products">
           <app-product-item [product]="p"></app-product-item>
         </div>

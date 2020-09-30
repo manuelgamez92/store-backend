@@ -15,6 +15,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
   }
   onSearch(search:string){
+    this.route.navigateByUrl("shop");
      this.shopService.search = search.trim();
      this.shopService.getProducts();
 

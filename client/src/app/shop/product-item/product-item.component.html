@@ -1,4 +1,5 @@
 <div class="card mb-2 h-200 shadow-sm">
+  <div class="image position-relative">
     <img
       class="card-img-top"
       data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
@@ -7,28 +8,29 @@
       [src]="product.pictureUrl"
       data-holder-rendered="true"
     />
-    <div class="card-body">
-        <a >
-            <h6 class="text-uppercase"> {{product.name}}</h6>
-        </a>
-      <p class="card-text">
-      </p>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-          >
-          <i class="fa fa-shopping-cart fa-2x text-dark" style="font-size: 18px;"></i>
-        </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-          >
-            <i class="fa fa-heart"></i>
-          </button>
-        </div>
-        <strong class="text-muted">{{product.price | currency}}</strong>
-      </div>
+    <div class="d-flex align-items-center justify-content-center hover-overlay">
+      <a
+        class="btn btn-sm btn-primary"
+        routerLink="/shop/{{ product.id }}"
+      >
+        <i
+          class="fa fa-shopping-cart fa-2x text-dark"
+          style="font-size: 18px"
+        ></i>
+      </a><span style="width: 2rem;"></span>
+      <button type="button" class="btn btn-sm btn-primary">
+        <i class="fa fa-heart"></i>
+      </button>
     </div>
   </div>
+
+  <div class="card-body">
+    <a>
+      <h6 class="text-uppercase">{{ product.name }}</h6>
+    </a>
+    <p class="card-text"></p>
+    <div class="d-flex justify-content-between align-items-center">
+      <strong class="text-muted">{{ product.price | currency }}</strong>
+    </div>
+  </div>
+</div>
