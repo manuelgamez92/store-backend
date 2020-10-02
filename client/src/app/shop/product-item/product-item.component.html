@@ -10,16 +10,17 @@
     />
     <div class="d-flex align-items-center justify-content-center hover-overlay">
       <a
+        (click)="addItemToBasket()"
         class="btn btn-sm btn-primary"
-        routerLink="/shop/{{ product.id }}"
+       
       >
         <i
           class="fa fa-shopping-cart fa-2x text-dark"
           style="font-size: 18px"
         ></i>
       </a><span style="width: 2rem;"></span>
-      <button type="button" class="btn btn-sm btn-primary">
-        <i class="fa fa-heart"></i>
+      <button type="button" routerLink="/shop/{{ product.id }}" class="btn btn-sm btn-primary">
+       View
       </button>
     </div>
   </div>

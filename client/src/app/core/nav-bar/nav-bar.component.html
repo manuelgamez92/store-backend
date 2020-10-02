@@ -55,12 +55,12 @@
     </ul>
 
     <div class="d-flex align-items-center">
-      <a class="btn btn-outline-info mr-2 position-relative">
+      <a  routerLink="/basket" class="btn btn-outline-info mr-2 position-relative">
         <i
           class="fa fa-shopping-cart fa-2x text-dark"
           style="font-size: 18px"
         ></i>
-        <div class="cart-no">5</div>
+        <div *ngIf="(basket$ | async) as basket" class="cart-no"><span *ngIf="basket.items.length>0">{{basket.items.length}}</span></div>
       </a>
       <a class="btn btn-outline-primary mr-2">Login</a>
       <a class="btn btn-outline-success mr-3">Sign up</a>

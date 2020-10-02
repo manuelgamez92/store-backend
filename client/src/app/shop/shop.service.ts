@@ -7,11 +7,12 @@ import { map } from 'rxjs/operators';
 import { ShopParams } from '../shared/models/shopParams';
 import { Subject } from 'rxjs';
 import { IProduct } from '../shared/models/product';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class ShopService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
   private productsUpdated = new Subject<{products: IPagination}>();
 
   typeIdSelected: number = 0;

@@ -1,0 +1,21 @@
+
+
+@media (max-width: 780px) { 
+    .col-lg-12#celCheckout{
+      display: block;
+    }
+    .col-lg-6#desktopCheckout{
+      display: none;
+    }
+ }
+
+
+ @media (min-width: 781px) { 
+    .col-lg-12#celCheckout{
+      display: none;
+    }
+    .col-lg-6#desktopCheckout{
+      display:  block;
+    }
+ }
+

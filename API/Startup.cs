@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace API
 {
@@ -34,36 +35,52 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
-           
-            services.Configure<ApiBehaviorOptions>(options=>{
-                options.InvalidModelStateResponseFactory = actionConext =>{
+
+            services.AddSingleton<IConnectionMultiplexer>(c => {
+                    var configuration = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"),true);
+                    return ConnectionMultiplexer.Connect(configuration);
+            });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = actionConext =>
+                {
                     var errors = actionConext.ModelState
                     .Where(e => e.Value.Errors.Count > 0)
                     .SelectMany(x => x.Value.Errors)
                     .Select(x => x.ErrorMessage).ToArray();
 
-                    var errorResponse = new ApiValidationErrorResponse {
+                    var errorResponse = new ApiValidationErrorResponse
+                    {
                         Errors = errors
                     };
                     return new BadRequestObjectResult(errorResponse);
                 };
-                
+
             });
 
-            services.AddSwaggerGen( c => {
-                c.SwaggerDoc("v1",new OpenApiInfo {Title = "Skinet API", Version = "v1"});
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Skinet API", Version = "v1" });
             });
 
-            services.AddCors(opt =>{
-                opt.AddPolicy("CorsPolicy", policy => {
-                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
-                });
-            });
-       
+            // services.AddCors(opt =>{
+            //     opt.AddPolicy("CorsPolicy", policy => {
+            //     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200","https://192.168.0.12:4200");
+            //     });
+            // });
+
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+   {
+       builder.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+   }));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,7 +98,7 @@ namespace API
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skinet API v1"); } );
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skinet API v1"); });
 
             app.UseEndpoints(endpoints =>
             {

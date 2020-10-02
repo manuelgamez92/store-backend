@@ -20,6 +20,7 @@
       <p>{{ product.price | currency }}</p>
       <div class="d-flex justify-content-start align-items-center">
         <i
+          (click)="decrementQuantity()"
           class="fa fa-minus-circle text-warning"
           style="cursor: pointer; font-size: 2em"
         >
@@ -28,13 +29,15 @@
           class="font-weight-bold"
           style="font-size: 1.5rem; padding: 1rem"
         >
-          2 </span
+         {{quantity}} </span
         ><i
+          (click)="incrementQuantity()"
           class="fa fa-plus-circle text-warning"
           style="cursor: pointer; font-size: 2em"
         >
         </i
         ><button
+          (click)="addItemToBasket()"
           class="btn btn-outline-secondary btn-lg"
           style="margin-left: 1rem"
         >
