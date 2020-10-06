@@ -8,6 +8,8 @@ using API.Middleware;
 using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +36,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ITokenService,TokenService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
@@ -41,6 +44,9 @@ namespace API
             services.AddControllers();
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
 
+              services.AddDbContext<AppIdentityDbContext>( x => {
+                  x.UseSqlite(_configuration.GetConnectionString("IdentityConnection"));
+              });
             services.AddSingleton<IConnectionMultiplexer>(c => {
                     var configuration = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"),true);
                     return ConnectionMultiplexer.Connect(configuration);
@@ -74,6 +80,8 @@ namespace API
             //     });
             // });
 
+            services.AddIdentityServices(_configuration);
+
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
    {
        builder.AllowAnyOrigin()
@@ -95,6 +103,9 @@ namespace API
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseSwagger();
