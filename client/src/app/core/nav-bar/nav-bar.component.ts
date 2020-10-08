@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { BasketService } from 'src/app/basket/basket.service';
 import { Observable } from 'rxjs';
 import { IBasket } from 'src/app/shared/models/basket';
+import { AccountService } from 'src/app/account/account.service';
+import { IUser } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,10 +15,12 @@ import { IBasket } from 'src/app/shared/models/basket';
 export class NavBarComponent implements OnInit {
   @Output() search = new EventEmitter<string>();
    basket$: Observable<IBasket>;
-  constructor(private basketService: BasketService,private shopService: ShopService, private route: Router) { }
+   currentUser$ : Observable<IUser>;
+  constructor(private basketService: BasketService,private shopService: ShopService, private route: Router,private accountService: AccountService) { }
 
   ngOnInit() {
     this.basket$ = this.basketService.basket$;
+    this.currentUser$ = this.accountService.currentUser$;
   }
   onSearch(search:string){
     this.route.navigateByUrl("shop");
@@ -24,4 +28,8 @@ export class NavBarComponent implements OnInit {
      this.shopService.getProducts();
 
   }
+  logout(){
+    this.accountService.logOut();
+  }
+  
 }

@@ -5,6 +5,7 @@ import { IPagination } from './shared/models/paginations';
 import { ShopComponent } from './shop/shop.component';
 import { ShopParams } from './shared/models/shopParams';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +16,27 @@ export class AppComponent implements OnInit {
   @ViewChild('shopComp') shop;
   searchText: string;
 
-  constructor(private basketService: BasketService) {}
+  constructor(private basketService: BasketService,private accountService: AccountService) {}
 
   ngOnInit() {
+    this.loadBasket();
+    this.loadCurrentUser();
+
+  }
+  loadCurrentUser(){
+    const token = localStorage.getItem('token');
+    if(token){
+      this.accountService.loadCurrentUser(token).subscribe(()=>{
+        console.log("loaded user")
+      },error =>{
+        console.log('error: '+error);
+      })
+    }
+  }
+  passingSearch($event) {
+    this.searchText = $event.trim();
+  }
+  loadBasket(){
     const basketId = localStorage.getItem('basket_id');
     if (basketId) {
       this.basketService.getBasket(basketId).subscribe(
@@ -29,8 +48,5 @@ export class AppComponent implements OnInit {
         }
       );
     }
-  }
-  passingSearch($event) {
-    this.searchText = $event.trim();
   }
 }

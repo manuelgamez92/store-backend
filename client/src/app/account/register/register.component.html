@@ -1,0 +1,122 @@
+<div class="d-flex justify-content-center mt-5">
+  <div class="col-lg-3">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="text-center mb-4">
+        <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+      </div>
+
+      <div class="form-label-group">
+        <input
+          [ngClass]="
+            registerForm.get('displayName').touched
+              ? !registerForm.get('displayName').valid
+                ? 'is-invalid'
+                : 'is-valid'
+              : null
+          "
+          type="text"
+          id="displayName"
+          formControlName="displayName"
+          class="form-control"
+          placeholder="Username"
+        />
+        <label for="inputEmail">Username</label>
+        <span
+          class="text-danger"
+          *ngIf="
+            registerForm.get('displayName').invalid &&
+            registerForm.get('displayName').touched &&
+            registerForm.get('displayName').errors['required']
+          "
+        >
+          Username is required
+        </span>
+      </div>
+
+      <div class="form-label-group">
+        <input
+          [ngClass]="
+            registerForm.get('email').touched
+              ? !registerForm.get('email').valid
+                ? 'is-invalid'
+                : 'is-valid'
+              : null
+          "
+          type="email"
+          id="inputEmail"
+          formControlName="email"
+          class="form-control"
+          placeholder="Email address"
+        />
+        <label for="inputEmail">Email address</label>
+        <span
+          class="text-danger"
+          *ngIf="
+            registerForm.get('email').invalid &&
+            registerForm.get('email').touched &&
+            registerForm.get('email').errors['required']
+          "
+        >
+          Email address is required
+        </span>
+        <span
+          class="text-danger"
+          *ngIf="
+            registerForm.get('email').invalid &&
+            registerForm.get('email').touched &&
+            registerForm.get('email').errors['pattern']
+          "
+        >
+          Incorrect email format
+        </span>
+        <span
+          class="text-danger"
+          *ngIf="
+            registerForm.get('email').invalid &&
+            registerForm.get('email').touched &&
+            registerForm.get('email').errors['emailExists']
+          "
+        >
+          This email is already taken. Please use another email.
+        </span>
+      </div>
+
+      <div class="form-label-group">
+        <input
+          [ngClass]="
+            registerForm.get('password').touched
+              ? !registerForm.get('password').valid
+                ? 'is-invalid'
+                : 'is-valid'
+              : null
+          "
+          type="password"
+          id="inputPassword"
+          formControlName="password"
+          class="form-control"
+          placeholder="Password"
+          required=""
+        />
+        <label for="inputPassword">Password</label>
+        <span
+          class="text-danger"
+          *ngIf="
+            registerForm.get('password').invalid &&
+            registerForm.get('password').touched &&
+            registerForm.get('password').errors['required']
+          "
+        >
+          Password address is required
+        </span>
+      </div>
+
+      <button
+        [disabled]="registerForm.invalid"
+        class="btn btn-lg btn-primary btn-block"
+        type="submit"
+      >
+        Sign in
+      </button>
+    </form>
+  </div>
+</div>

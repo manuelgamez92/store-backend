@@ -16,8 +16,8 @@ namespace API.Errors
         {
             return statusCode switch
             {
-              400 => "A bar request, you have made",
-              401 => "Authorized, you are not",
+              400 => "Error, please try again",
+              401 => "The password is incorrect, please try again",
               404 => "Resource found,it was not",
               500 => "Errors are the path to the dark side",
               _ => null

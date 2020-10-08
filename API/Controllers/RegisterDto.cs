@@ -1,11 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Controllers
 {
     public class RegisterDto
     {
-        public string DisplayName {get;set;}
+        [Required]
 
-        public string Email {get;set;}
+        public string DisplayName { get; set; }
+        [Required]
+        [EmailAddress]
 
-        public string Password {get;set;}
+        public string Email { get; set; }
+        [Required]
+        [RegularExpression("(?=^.{6,10}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\\s).*$", ErrorMessage="Password not strong enough")]
+        public string Password { get; set; }
     }
 }

@@ -84,7 +84,6 @@ namespace API.Controllers
             {
                 return Unauthorized(new ApiResponse(401));
             }
-            System.Diagnostics.Debug.WriteLine("hola");
             var result = await this.signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
@@ -101,6 +100,9 @@ namespace API.Controllers
 
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if(CheckEmailExistsAsync(registerDto.Email).Result.Value){
+                return new BadRequestObjectResult(new ApiValidationErrorResponse{Errors = new[]{"Email address in use"}});
+            }
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
